@@ -1,4 +1,4 @@
-# 🧠 MNIST Digit Classifier — Built from Scratch
+#  MNIST Digit Classifier — Built from Scratch
 
 > **A sophisticated, educational implementation of a fully-connected neural network using pure NumPy.** No PyTorch, no TensorFlow—just math, code, and deep learning fundamentals.
 
@@ -8,15 +8,15 @@
 
 ---
 
-## 🎯 Vision
+##  Vision
 
 This project demonstrates that understanding neural networks *deeply* requires implementing them from first principles. Every component—forward propagation, backpropagation, gradient computation, optimization—is hand-coded and thoroughly documented.
 
 **Perfect for:**
-- 📚 Learning neural network fundamentals
-- 🔬 Understanding backpropagation in detail
-- 🎓 Computer science coursework or interviews
-- 🚀 Building intuition before using production frameworks
+-  Learning neural network fundamentals
+-  Understanding backpropagation in detail
+-  Computer science coursework or interviews
+-  Building intuition before using production frameworks
 
 ---
 

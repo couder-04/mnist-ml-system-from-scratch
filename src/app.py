@@ -23,7 +23,8 @@ def load_model():
         st.error(" No trained model found. Run training first.")
         return None
 
-    model_path = os.path.join("results", best_run, "model.npz")
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(BASE_DIR, "..", "results", best_run, "model.npz")
 
     # Dummy data (needed for model init)
     X_train, Y_train, _, _, _, _ = load_data()
@@ -99,11 +100,11 @@ if canvas.image_data is not None:
 
     pred = np.argmax(probs)
 
-    st.subheader(f"🎯 Prediction: {pred}")
+    st.subheader(f" Prediction: {pred}")
 
     #  PROBABILITY DISPLAY
 
-    st.markdown("### 📊 Confidence Scores")
+    st.markdown("###  Confidence Scores")
 
     prob_df = {
         "Digit": list(range(10)),
