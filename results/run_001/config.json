@@ -1,0 +1,21 @@
+{
+    "layers": [
+        {
+            "neurons": 128,
+            "acts": "relu"
+        },
+        {
+            "neurons": 64,
+            "acts": "relu"
+        },
+        {
+            "neurons": 10,
+            "acts": "linear"
+        }
+    ],
+    "lr": 0.003,
+    "epochs": 20,
+    "batch_size": 64,
+    "seed": 42,
+    "patience": 5
+}

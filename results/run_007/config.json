@@ -1,0 +1,22 @@
+{
+    "lr": 0.003,
+    "epochs": 10,
+    "batch_size": 64,
+    "seed": 42,
+    "l2_lambda": 0.001,
+    "patience": 5,
+    "layers": [
+        {
+            "neurons": 128,
+            "acts": "relu"
+        },
+        {
+            "neurons": 64,
+            "acts": "relu"
+        },
+        {
+            "neurons": 10,
+            "acts": "linear"
+        }
+    ]
+}
