@@ -6,9 +6,9 @@ from utils import get_best_run
 import os
 import matplotlib.pyplot as plt
 
-# =========================
-# 🖼️ PREPROCESS
-# =========================
+
+#  PREPROCESS
+
 
 def preprocess(img_path, show=False):
     if not os.path.exists(img_path):
@@ -34,35 +34,35 @@ def preprocess(img_path, show=False):
     return img.reshape(1, -1), img
 
 
-# =========================
-# 🤖 LOAD BEST MODEL
-# =========================
+
+#  LOAD BEST MODEL
+
 
 def load_best_model():
     best_run, _ = get_best_run()
 
     if best_run is None:
-        raise ValueError("❌ No trained model found")
+        raise ValueError(" No trained model found")
 
     model_path = os.path.join("results", best_run, "model.npz")
 
     if not os.path.exists(model_path):
         raise FileNotFoundError(f"Model not found at {model_path}")
 
-    # ✅ Use dummy input instead of loading dataset
+    
     X_dummy = np.zeros((1, 784))
     Y_dummy = np.zeros((1, 10))
 
     model = NeuralNetwork.load_model(model_path, X_dummy, Y_dummy)
 
-    print(f"✅ Loaded model from: {model_path}")
+    print(f" Loaded model from: {model_path}")
 
     return model
 
 
-# =========================
-# 🔮 PREDICT
-# =========================
+
+#  PREDICT
+
 
 def predict_image(model, img_path, show=False):
     x, img = preprocess(img_path, show=show)
@@ -76,9 +76,8 @@ def predict_image(model, img_path, show=False):
     return pred, confidence, probs
 
 
-# =========================
-# 🚀 MAIN
-# =========================
+# MAIN
+
 
 def main():
     parser = argparse.ArgumentParser(description="Predict digit from image")
@@ -93,10 +92,10 @@ def main():
 
     pred, confidence, probs = predict_image(model, args.image, show=args.show)
 
-    print(f"\n🎯 Prediction: {pred}")
-    print(f"🔥 Confidence: {confidence:.4f}")
+    print(f"\n Prediction: {pred}")
+    print(f" Confidence: {confidence:.4f}")
 
-    print("\n📊 Top Probabilities:")
+    print("\n Top Probabilities:")
 
     topk_idx = np.argsort(probs)[::-1][:args.topk]
 
@@ -104,9 +103,9 @@ def main():
         print(f"{i}: {probs[i]:.4f}")
 
 
-# =========================
-# 🏁 ENTRY
-# =========================
+
+#  ENTRY
+
 
 if __name__ == "__main__":
     main()

@@ -7,14 +7,13 @@ from PIL import Image
 
 st.set_page_config(page_title="MNIST Dashboard", layout="wide")
 
-# 🔥 FIX: absolute path (important)
 BASE_DIR = os.path.abspath("results")
 
-st.title("📊 MNIST Experiment Dashboard")
+st.title(" MNIST Experiment Dashboard")
 
-# =========================
-# 📥 LOAD RUN DATA
-# =========================
+
+#  LOAD RUN DATA
+
 
 def load_runs():
     if not os.path.exists(BASE_DIR):
@@ -65,35 +64,31 @@ def load_runs():
 
 df = load_runs()
 
-# =========================
-# 🚨 EMPTY CHECK
-# =========================
+#  EMPTY CHECK
+
 
 if df.empty:
-    st.warning("⚠️ No runs found. Train a model first.")
+    st.warning(" No runs found. Train a model first.")
     st.stop()
 
-# =========================
-# 🎛️ SIDEBAR CONTROLS
-# =========================
+#  SIDEBAR CONTROLS
 
-st.sidebar.header("🔧 Controls")
+
+st.sidebar.header(" Controls")
 
 min_acc = st.sidebar.slider("Minimum Accuracy", 0.0, 1.0, 0.0)
 show_top_k = st.sidebar.slider("Top K Runs", 1, len(df), min(5, len(df)))
 
 filtered_df = df[df["accuracy"] >= min_acc].head(show_top_k)
 
-# =========================
-# 📋 TABLE VIEW
-# =========================
+#  TABLE VIEW
 
-st.subheader("📋 Experiments Overview")
+
+st.subheader(" Experiments Overview")
 st.dataframe(filtered_df, use_container_width=True)
 
-# =========================
-# 🏆 BEST MODEL
-# =========================
+
+#  BEST MODEL
 
 best = df.iloc[0]
 
@@ -102,14 +97,14 @@ st.success(
     f"Run: {best['run']} | Accuracy: {best['accuracy']:.4f} | F1: {best.get('f1', 0):.4f}"
 )
 
-# =========================
-# 📊 COMPARISON PLOTS
-# =========================
+
+#  COMPARISON PLOTS
+
 
 col1, col2 = st.columns(2)
 
 with col1:
-    st.subheader("📈 Accuracy Comparison")
+    st.subheader(" Accuracy Comparison")
     fig, ax = plt.subplots()
     ax.bar(filtered_df["run"], filtered_df["accuracy"])
     ax.set_ylabel("Accuracy")
@@ -118,7 +113,7 @@ with col1:
     st.pyplot(fig)
 
 with col2:
-    st.subheader("📈 F1 Score Comparison")
+    st.subheader(" F1 Score Comparison")
     fig, ax = plt.subplots()
     ax.bar(filtered_df["run"], filtered_df.get("f1", 0))
     ax.set_ylabel("F1 Score")
@@ -126,11 +121,11 @@ with col2:
     plt.xticks(rotation=45)
     st.pyplot(fig)
 
-# =========================
-# 📉 TREND PLOT
-# =========================
 
-st.subheader("📉 Accuracy Trend")
+#  TREND PLOT
+
+
+st.subheader(" Accuracy Trend")
 
 fig, ax = plt.subplots()
 ax.plot(df["run"], df["accuracy"], marker="o")
@@ -139,22 +134,19 @@ ax.set_xlabel("Run")
 plt.xticks(rotation=45)
 st.pyplot(fig)
 
-# =========================
-# 🔍 RUN DETAILS
-# =========================
 
-st.subheader("🔍 Inspect Run")
+# RUN DETAILS
+
+
+st.subheader(" Inspect Run")
 
 selected_run = st.selectbox("Select run", df["run"].tolist())
 
 run_path = os.path.join(BASE_DIR, selected_run)
 
-# 🔥 DEBUG INFO
-st.caption(f"📂 Loading from: {run_path}")
+st.caption(f" Loading from: {run_path}")
 
-# =========================
-# ⚙️ CONFIG VIEW
-# =========================
+#  CONFIG VIEW
 
 config_path = os.path.join(run_path, "config.json")
 
@@ -162,14 +154,13 @@ if os.path.exists(config_path):
     with open(config_path) as f:
         config = json.load(f)
 
-    st.markdown("### ⚙️ Configuration")
+    st.markdown("###  Configuration")
     st.json(config)
 else:
     st.info("No config found for this run")
 
-# =========================
-# 📊 METRICS VIEW
-# =========================
+#  METRICS VIEW
+
 
 metrics_path = os.path.join(run_path, "metrics.json")
 
@@ -177,14 +168,14 @@ if os.path.exists(metrics_path):
     with open(metrics_path) as f:
         metrics = json.load(f)
 
-    st.markdown("### 📊 Metrics")
+    st.markdown("###  Metrics")
     st.json(metrics)
 
-# =========================
-# 🖼️ SHOW PLOTS
-# =========================
 
-st.subheader("📊 Run Plots")
+#  SHOW PLOTS
+
+
+st.subheader(" Run Plots")
 
 plots_dir = os.path.join(run_path, "plots")
 
@@ -209,11 +200,11 @@ for i, (pf, title) in enumerate(plot_files):
         else:
             st.warning(f"{pf} not found at {path}")
 
-# =========================
-# 🧠 INSIGHTS
-# =========================
 
-st.subheader("🧠 Insights")
+#  INSIGHTS
+
+
+st.subheader(" Insights")
 
 st.write(f"Total Runs: {len(df)}")
 st.write(f"Best Accuracy: {df['accuracy'].max():.4f}")

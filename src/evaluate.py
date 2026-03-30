@@ -4,9 +4,8 @@ import os
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 import seaborn as sns
 
-# =========================
-# 📊 EVALUATE
-# =========================
+#  EVALUATE
+
 
 def evaluate(model, X_test, Y_test, save_dir=None):
     y_true = np.argmax(Y_test, axis=1)
@@ -15,8 +14,8 @@ def evaluate(model, X_test, Y_test, save_dir=None):
     accuracy = accuracy_score(y_true, y_pred)
     f1 = f1_score(y_true, y_pred, average="macro")
 
-    print(f"📊 Accuracy: {accuracy:.4f}")
-    print(f"📊 F1 Score: {f1:.4f}")
+    print(f" Accuracy: {accuracy:.4f}")
+    print(f" F1 Score: {f1:.4f}")
 
     if save_dir:
         os.makedirs(save_dir, exist_ok=True)
@@ -31,9 +30,9 @@ def evaluate(model, X_test, Y_test, save_dir=None):
     return {"accuracy": accuracy, "f1": f1}
 
 
-# =========================
-# ❌ MISCLASSIFIED SAMPLES
-# =========================
+
+# MISCLASSIFIED SAMPLES
+
 
 def show_misclassified(model, X_test, Y_test, save_dir=None, num=10):
     y_true = np.argmax(Y_test, axis=1)
@@ -42,7 +41,7 @@ def show_misclassified(model, X_test, Y_test, save_dir=None, num=10):
     wrong_idx = np.where(y_true != y_pred)[0]
 
     if len(wrong_idx) == 0:
-        print("✅ No misclassified samples!")
+        print(" No misclassified samples!")
         return
 
     wrong_idx = wrong_idx[:num]
@@ -63,9 +62,7 @@ def show_misclassified(model, X_test, Y_test, save_dir=None, num=10):
         plt.show()
 
 
-# =========================
-# 📈 CONFIDENCE HISTOGRAM
-# =========================
+#  CONFIDENCE HISTOGRAM
 
 def plot_confidence(model, X_test, save_dir=None):
     logits = model.forward(X_test)[0]
@@ -84,10 +81,7 @@ def plot_confidence(model, X_test, save_dir=None):
     else:
         plt.show()
 
-
-# =========================
-# 📊 CONFUSION MATRIX (EXTRA)
-# =========================
+#  CONFUSION MATRIX 
 
 def plot_confusion(model, X_test, Y_test, save_dir=None):
     y_true = np.argmax(Y_test, axis=1)

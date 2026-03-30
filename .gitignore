@@ -1,6 +1,6 @@
-# =========================
-# 🧠 PYTHON
-# =========================
+
+#  PYTHON
+
 __pycache__/
 *.pyc
 *.pyo
@@ -14,54 +14,53 @@ venv/
 .venv/
 env/
 
-# =========================
-# 📊 DATA (DON’T UPLOAD)
-# =========================
+
+#  DATA (DON’T UPLOAD)
+
 data/
 *.csv
 
-# =========================
-# 💾 MODELS
-# =========================
+
+#  MODELS
+
 models/
 *.npz
 
-# =========================
-# 📈 RESULTS / EXPERIMENTS
-# =========================
+
+# RESULTS / EXPERIMENTS
+
 results/*
 !results/sample_run/
 
-# =========================
-# 📓 NOTEBOOK CHECKPOINTS
-# =========================
+
+#  NOTEBOOK CHECKPOINTS
+
 .ipynb_checkpoints/
 
-# =========================
-# 🖥️ OS FILES
-# =========================
+#  OS FILES
+
 .DS_Store
 Thumbs.db
 
-# =========================
-# 🧪 LOGS
-# =========================
+
+#  LOGS
+
 *.log
 
-# =========================
-# ⚙️ STREAMLIT CACHE
-# =========================
+
+#  STREAMLIT CACHE
+
 .streamlit/
 
-# =========================
-# 🧰 EDITORS
-# =========================
+
+#  EDITORS
+
 .vscode/
 .idea/
 
-# =========================
-# 🐍 TEST / BUILD
-# =========================
+
+#  TEST / BUILD
+
 build/
 dist/
 *.egg-info/

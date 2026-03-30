@@ -5,15 +5,15 @@ from experiment import generate_configs
 from compare import compare_runs, rank_models
 import os
 
-# =========================
-# ⚠️ VALID ACTIVATIONS
-# =========================
+
+#  VALID ACTIVATIONS
+
 
 VALID = ["linear", "relu", "gelu", "elu", "leaky_relu"]
 
-# =========================
-# 🎯 ARG PARSER
-# =========================
+
+#  ARG PARSER
+
 
 def parse():
     p = argparse.ArgumentParser(description="MNIST Neural Network Runner")
@@ -36,16 +36,16 @@ def parse():
 
     return p.parse_args()
 
-# =========================
-# ⚙️ CONFIG BUILDER
-# =========================
+
+#  CONFIG BUILDER
+
 
 def build_config(a):
     if a.layers is None or a.acts is None:
-        raise ValueError("❌ --layers and --acts are required for single mode")
+        raise ValueError(" --layers and --acts are required for single mode")
 
     if len(a.layers) != len(a.acts):
-        raise ValueError("❌ Layers and activations must match")
+        raise ValueError(" Layers and activations must match")
 
     layers_config = []
 
@@ -53,7 +53,7 @@ def build_config(a):
         act = act.lower()
 
         if act not in VALID:
-            raise ValueError(f"❌ Invalid activation: {act}")
+            raise ValueError(f" Invalid activation: {act}")
 
         layers_config.append({
             "neurons": n,
@@ -66,67 +66,67 @@ def build_config(a):
         "epochs": a.epochs,
         "batch_size": a.batch_size,
         "seed": a.seed,
-        "patience": 5  # ✅ early stopping control
+        "patience": 5  
     }
 
-# =========================
-# 🚀 SINGLE RUN
-# =========================
+
+#  SINGLE RUN
+
 
 def run_single(args):
-    print("\n🚀 Running Single Experiment...\n")
+    print("\n Running Single Experiment...\n")
 
     config = build_config(args)
 
     model, X_test, Y_test, run_dir = train_pipeline(config)
 
-    print("\n📊 Evaluating...\n")
+    print("\n Evaluating...\n")
 
     metrics = evaluate(model, X_test, Y_test, save_dir=run_dir)
 
     show_misclassified(model, X_test, Y_test, save_dir=run_dir)
     plot_confidence(model, X_test, save_dir=run_dir)
 
-    print(f"\n✅ Done! Results saved in: {run_dir}")
+    print(f"\n Done! Results saved in: {run_dir}")
 
-# =========================
-# 🔁 GRID SEARCH
-# =========================
+
+#  GRID SEARCH
+
 
 def run_grid():
-    print("\n🔁 Running Grid Search...\n")
+    print("\n Running Grid Search...\n")
 
     configs = generate_configs()
 
     if not configs:
-        print("❌ No configs generated")
+        print(" No configs generated")
         return
 
     for i, config in enumerate(configs):
-        print(f"\n🚀 Experiment {i+1}/{len(configs)}")
+        print(f"\n Experiment {i+1}/{len(configs)}")
 
         try:
             train_pipeline(config)
         except Exception as e:
-            print(f"⚠️ Failed config {i+1}: {e}")
+            print(f" Failed config {i+1}: {e}")
             continue
 
-    print("\n📊 Comparing runs...\n")
+    print("\n Comparing runs...\n")
 
     df = compare_runs()
 
     if df is None or df.empty:
-        print("❌ No runs to compare")
+        print(" No runs to compare")
         return
 
     ranked_df, best = rank_models(df)
 
-    print("\n🏆 BEST MODEL:")
+    print("\n BEST MODEL:")
     print(best)
 
-# =========================
-# ▶️ MAIN
-# =========================
+
+#  MAIN
+
 
 if __name__ == "__main__":
     args = parse()

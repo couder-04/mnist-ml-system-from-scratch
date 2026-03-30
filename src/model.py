@@ -5,9 +5,8 @@ from sklearn.metrics import confusion_matrix
 import seaborn as sns
 import os
 
-# =========================
-# ⚡ ACTIVATIONS
-# =========================
+
+#  ACTIVATIONS
 
 ACTIVATIONS = {
     "linear": {"id": 0, "alpha": None},
@@ -39,9 +38,8 @@ ACT_DERIVS = {
     4: lambda x, a=0.001: np.where(x > 0, 1, a)
 }
 
-# =========================
-# 🔁 BATCHING
-# =========================
+#  BATCHING
+
 
 def create_batches(X, Y, bs):
     idx = np.random.permutation(X.shape[0])
@@ -49,9 +47,7 @@ def create_batches(X, Y, bs):
         batch = idx[i:i+bs]
         yield X[batch], Y[batch]
 
-# =========================
-# 🧠 MODEL
-# =========================
+#  MODEL
 
 class NeuralNetwork:
     def __init__(self, X, Y, layers, activations,
@@ -77,11 +73,11 @@ class NeuralNetwork:
 
         self.losses = []
         self.train_acc = []
-        self.optimizer = get_optimizer("adam")  # 🔥 best default
+        self.optimizer = get_optimizer("adam")  
 
-    # =========================
-    # 🔁 FORWARD
-    # =========================
+    
+    #  FORWARD
+    
 
     def forward(self, X):
         activations, pre_activations = [X], []
@@ -101,9 +97,7 @@ class NeuralNetwork:
 
         return logits, activations, pre_activations
 
-    # =========================
-    # 🔥 SOFTMAX + LOSS
-    # =========================
+    #  SOFTMAX + LOSS
 
     def softmax(self, x):
         x = x - np.max(x, axis=1, keepdims=True)
@@ -118,9 +112,7 @@ class NeuralNetwork:
 
         return data_loss + self.l2_lambda * l2_loss
 
-    # =========================
-    # 🔙 BACKPROP
-    # =========================
+    #  BACKPROP
 
     def backward(self, X, Y):
         logits, activations, pre_activations = self.forward(X)
@@ -145,7 +137,7 @@ class NeuralNetwork:
             # Update biases
             self.B[i] = self.optimizer.step(self.B[i], dB, self.lr, idx=i + 1000)
 
-            # 🔥 FORCE SHAPE (VERY IMPORTANT)
+            #  FORCE SHAPE (VERY IMPORTANT)
             if self.B[i].ndim == 1:
                 self.B[i] = self.B[i].reshape(1, -1)       
 
@@ -157,9 +149,7 @@ class NeuralNetwork:
 
         return self.loss(probs, Y)
 
-    # =========================
-    # 🔮 PREDICT
-    # =========================
+    #  PREDICT
 
     def predict(self, X):
         return np.argmax(self.softmax(self.forward(X)[0]), axis=1)
@@ -167,15 +157,13 @@ class NeuralNetwork:
     def accuracy(self, X, Y):
         return np.mean(self.predict(X) == np.argmax(Y, axis=1))
 
-    # =========================
-    # 🚀 TRAIN
-    # =========================
+    #  TRAIN
 
     def train(self, X_val=None, Y_val=None, patience=5):
         best_loss = float("inf")
         patience_counter = 0
 
-        best_W, best_B = None, None  # ✅ store best model
+        best_W, best_B = None, None  
 
         for epoch in range(self.epochs):
 
@@ -212,7 +200,6 @@ class NeuralNetwork:
                     best_loss = val_loss
                     patience_counter = 0
 
-                    # ✅ save best weights
                     best_W = [w.copy() for w in self.W]
                     best_B = [b.copy() for b in self.B]
                 else:
@@ -224,14 +211,11 @@ class NeuralNetwork:
 
             print(log)
 
-        # ✅ restore best weights
         if best_W is not None:
             self.W = best_W
             self.B = best_B
 
-    # =========================
-    # 📈 PLOTS
-    # =========================
+    #  PLOTS
 
     def plot_loss(self, save_path=None):
         plt.figure()
@@ -281,14 +265,11 @@ class NeuralNetwork:
         else:
             plt.show()
 
-    # =========================
-    # 💾 SAVE / LOAD
-    # =========================
+    #  SAVE / LOAD
     def save_model(self, path="models/model.npz"):
         import os
         os.makedirs(os.path.dirname(path), exist_ok=True)
 
-        # 🔥 Create true object arrays manually
         W_obj = np.empty(len(self.W), dtype=object)
         B_obj = np.empty(len(self.B), dtype=object)
 
@@ -296,7 +277,7 @@ class NeuralNetwork:
             W_obj[i] = w
 
         for i, b in enumerate(self.B):
-            # 🔥 FORCE SHAPE FIX
+            
             if b.ndim == 1:
                 b = b.reshape(1, -1)
             B_obj[i] = b
@@ -309,7 +290,7 @@ class NeuralNetwork:
             activations=self.activations
         )
 
-        print(f"✅ Model saved → {path}")
+        print(f" Model saved → {path}")
 
 
     @staticmethod
@@ -326,6 +307,6 @@ class NeuralNetwork:
         model.W = [w for w in data["W"]]
         model.B = [b for b in data["B"]]
 
-        print("✅ Model loaded")
+        print("Model loaded")
 
         return model

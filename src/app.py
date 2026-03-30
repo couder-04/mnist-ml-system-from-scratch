@@ -10,19 +10,17 @@ from utils import get_best_run
 
 st.set_page_config(page_title="MNIST Canvas", layout="centered")
 
-st.title("✍️ MNIST Digit Recognizer")
+st.title(" MNIST Digit Recognizer")
 st.markdown("Draw a digit (0–9) and let the model predict!")
 
-# =========================
-# 🧠 LOAD BEST MODEL
-# =========================
+#  LOAD BEST MODEL
 
 @st.cache_resource
 def load_model():
     best_run, acc = get_best_run()
 
     if best_run is None:
-        st.error("❌ No trained model found. Run training first.")
+        st.error(" No trained model found. Run training first.")
         return None
 
     model_path = os.path.join("results", best_run, "model.npz")
@@ -44,9 +42,7 @@ model, best_run, best_acc = model_data
 
 st.success(f"Using Best Model → {best_run} (Accuracy: {best_acc:.4f})")
 
-# =========================
-# 🎨 CANVAS
-# =========================
+#  CANVAS
 
 canvas = st_canvas(
     fill_color="black",
@@ -59,44 +55,40 @@ canvas = st_canvas(
     key="canvas"
 )
 
-# =========================
-# 🔄 PREPROCESS
-# =========================
+#  PREPROCESS
 
 def preprocess(img):
     img = Image.fromarray(img.astype("uint8")).convert("L")
 
-    # 🔥 convert to numpy
+    #  convert to numpy
     img = np.array(img)
 
-    # 🔥 threshold (binarize)
+    #  threshold (binarize)
     img = (img > 50).astype(np.uint8) * 255
 
-    # 🔥 crop to bounding box
+    #  crop to bounding box
     coords = np.column_stack(np.where(img > 0))
     if len(coords) > 0:
         y_min, x_min = coords.min(axis=0)
         y_max, x_max = coords.max(axis=0)
         img = img[y_min:y_max+1, x_min:x_max+1]
 
-    # 🔥 resize to 20x20 (like MNIST)
+    #  resize to 20x20 (like MNIST)
     img = Image.fromarray(img).resize((20, 20))
 
-    # 🔥 pad to 28x28
+    #  pad to 28x28
     padded = np.zeros((28, 28), dtype=np.uint8)
     padded[4:24, 4:24] = img
 
     img = padded.astype(np.float32)
 
-    # 🔥 normalize
+    #  normalize
     img /= 255.0
 
     return img.reshape(1, -1), img
 
 
-# =========================
-# 🔮 PREDICTION
-# =========================
+#  PREDICTION
 
 if canvas.image_data is not None:
 
@@ -109,9 +101,7 @@ if canvas.image_data is not None:
 
     st.subheader(f"🎯 Prediction: {pred}")
 
-    # =========================
-    # 📊 PROBABILITY DISPLAY
-    # =========================
+    #  PROBABILITY DISPLAY
 
     st.markdown("### 📊 Confidence Scores")
 
@@ -122,16 +112,15 @@ if canvas.image_data is not None:
 
     st.bar_chart(prob_df, x="Digit", y="Probability")
 
-    # =========================
-    # 🖼️ PROCESSED IMAGE
-    # =========================
+    #  PROCESSED IMAGE
+    
 
     st.markdown("### 🖼️ Processed Input")
     st.image(img, width=150)
 
-# =========================
-# 🧹 CLEAR BUTTON
-# =========================
+
+#  CLEAR BUTTON
+
 
 if st.button("🧹 Clear Canvas"):
     st.rerun()

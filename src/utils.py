@@ -2,9 +2,7 @@ import os
 import json
 import datetime
 
-# =========================
 # 📁 RUN DIRECTORY
-# =========================
 
 def get_next_run_dir(base="results"):
     os.makedirs(base, exist_ok=True)
@@ -27,9 +25,8 @@ def get_next_run_dir(base="results"):
     return run_dir
 
 
-# =========================
-# 💾 SAVE JSON
-# =========================
+#  SAVE JSON
+
 
 def save_json(data, path):
     os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -38,9 +35,7 @@ def save_json(data, path):
         json.dump(data, f, indent=4)
 
 
-# =========================
-# 📥 LOAD JSON
-# =========================
+#  LOAD JSON
 
 def load_json(path):
     if not os.path.exists(path):
@@ -50,9 +45,8 @@ def load_json(path):
         return json.load(f)
 
 
-# =========================
-# 📝 SIMPLE LOGGER
-# =========================
+#  SIMPLE LOGGER
+
 
 def get_logger(log_path):
     os.makedirs(os.path.dirname(log_path), exist_ok=True)
@@ -72,9 +66,7 @@ def get_logger(log_path):
     return log
 
 
-# =========================
-# 🏆 FIND BEST RUN
-# =========================
+# FIND BEST RUN
 
 def get_best_run(base="results"):
     if not os.path.exists(base):
@@ -108,9 +100,8 @@ def get_best_run(base="results"):
     return best_run, best_acc
 
 
-# =========================
-# 📊 LOAD ALL RUNS
-# =========================
+
+#  LOAD ALL RUNS
 
 def load_all_runs(base="results"):
     if not os.path.exists(base):
@@ -137,7 +128,6 @@ def load_all_runs(base="results"):
         except Exception:
             continue
 
-    # ✅ sort by accuracy descending
     runs_data.sort(key=lambda x: x.get("accuracy", 0), reverse=True)
 
     return runs_data

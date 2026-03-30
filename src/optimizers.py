@@ -1,26 +1,26 @@
 import numpy as np
 
-# =========================
-# 🧠 BASE OPTIMIZER
-# =========================
+
+#  BASE OPTIMIZER
+
 
 class Optimizer:
     def step(self, W, dW, lr, idx):
         raise NotImplementedError
 
 
-# =========================
-# ⚡ SGD (Vanilla)
-# =========================
+
+#  SGD (Vanilla)
+
 
 class SGD(Optimizer):
     def step(self, W, dW, lr, idx=None):
         return W - lr * dW
 
 
-# =========================
-# ⚡ SGD + MOMENTUM
-# =========================
+
+#  SGD + MOMENTUM
+
 
 class Momentum(Optimizer):
     def __init__(self, beta=0.9):
@@ -36,9 +36,9 @@ class Momentum(Optimizer):
         return W - lr * self.v[idx]
 
 
-# =========================
-# ⚡ RMSProp
-# =========================
+
+#  RMSProp
+
 
 class RMSProp(Optimizer):
     def __init__(self, beta=0.9, eps=1e-8):
@@ -55,9 +55,9 @@ class RMSProp(Optimizer):
         return W - lr * dW / (np.sqrt(self.s[idx]) + self.eps)
 
 
-# =========================
-# 🚀 ADAM (MOST IMPORTANT)
-# =========================
+
+#  ADAM 
+
 
 class Adam(Optimizer):
     def __init__(self, beta1=0.9, beta2=0.999, eps=1e-8):
@@ -89,9 +89,9 @@ class Adam(Optimizer):
         return W - lr * m_hat / (np.sqrt(v_hat) + self.eps)
 
 
-# =========================
-# 🧩 OPTIMIZER FACTORY
-# =========================
+
+#  OPTIMIZER FACTORY
+
 
 def get_optimizer(name="sgd"):
     name = name.lower()
@@ -109,4 +109,4 @@ def get_optimizer(name="sgd"):
         return Adam()
 
     else:
-        raise ValueError(f"❌ Unknown optimizer: {name}")
+        raise ValueError(f" Unknown optimizer: {name}")

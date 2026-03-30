@@ -1,15 +1,15 @@
 import itertools
 
-# =========================
-# ⚙️ DEFAULT SETTINGS
-# =========================
+
+# DEFAULT SETTINGS
+
 
 DEFAULT_SEED = 42
 NUM_CLASSES = 10
 
-# =========================
-# 🔁 GRID SEARCH CONFIG GENERATOR (CLEAN 🔥)
-# =========================
+
+#  GRID SEARCH CONFIG GENERATOR 
+
 
 def generate_configs(mode="normal"):
     """
@@ -27,44 +27,39 @@ def generate_configs(mode="normal"):
         print(f"⚡ FAST MODE → {len(configs)} configs")
         return configs
 
-    # =========================
-    # 🎯 NORMAL MODE (BEST FOR GITHUB)
-    # =========================
 
     configs = [
-        # 1️⃣ baseline
+        #  baseline
         custom_config(lr=0.003, layers=[128], epochs=10),
 
-        # 2️⃣ deeper
+        #  deeper
         custom_config(lr=0.003, layers=[128, 64], epochs=10),
 
-        # 3️⃣ wider
+        #  wider
         custom_config(lr=0.003, layers=[256, 128], epochs=10),
 
-        # 4️⃣ lower lr
+        #  lower lr
         custom_config(lr=0.001, layers=[128, 64], epochs=10),
 
-        # 5️⃣ gelu test
+        #  gelu test
         custom_config(lr=0.003, layers=[128, 64], acts=["gelu", "gelu"], epochs=10),
 
-        # 6️⃣ regularization test
+        #  regularization test
         custom_config(lr=0.003, layers=[128, 64], l2_lambda=0.001, epochs=10),
 
-        # 7️⃣ small model (speed baseline)
+        #  small model (speed baseline)
         custom_config(lr=0.003, layers=[64], epochs=8),
 
-        # 8️⃣ slightly deeper
+        #  slightly deeper
         custom_config(lr=0.003, layers=[128, 64, 32], epochs=10),
     ]
 
-    print(f"🔁 Generated {len(configs)} configs (clean mode)")
+    print(f" Generated {len(configs)} configs (clean mode)")
 
     return configs
 
 
-# =========================
-# 🎯 CUSTOM CONFIG BUILDER
-# =========================
+# CUSTOM CONFIG BUILDER
 
 def custom_config(
     lr=0.003,
@@ -80,7 +75,7 @@ def custom_config(
         acts = ["relu"] * len(layers)
 
     if len(layers) != len(acts):
-        raise ValueError("❌ Layers and activations must match")
+        raise ValueError(" Layers and activations must match")
 
     valid_acts = ["linear", "relu", "gelu", "elu", "leaky_relu"]
 
@@ -90,7 +85,7 @@ def custom_config(
         a = a.lower()
 
         if a not in valid_acts:
-            raise ValueError(f"❌ Invalid activation: {a}")
+            raise ValueError(f" Invalid activation: {a}")
 
         config_layers.append({
             "neurons": n,
@@ -111,9 +106,7 @@ def custom_config(
     }
 
 
-# =========================
-# 🧪 QUICK PRESETS
-# =========================
+#  QUICK PRESETS
 
 def fast_debug_config():
     """Quick test config"""

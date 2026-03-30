@@ -2,25 +2,22 @@ import argparse
 import subprocess
 import sys
 
-# =========================
-# 🧠 HELPER: SAFE RUN
-# =========================
+# HELPER: SAFE RUN
 
 def run_command(cmd):
     try:
         print(f"\n⚡ Running: {' '.join(cmd)}\n")
         subprocess.run(cmd, check=True)
     except subprocess.CalledProcessError as e:
-        print(f"❌ Command failed: {e}")
+        print(f" Command failed: {e}")
     except FileNotFoundError:
-        print("❌ Required tool not found (python/streamlit)")
+        print(" Required tool not found (python/streamlit)")
 
-# =========================
-# 🚀 TRAIN
-# =========================
+#  TRAIN
+
 
 def run_train():
-    print("🚀 Running Training...\n")
+    print(" Running Training...\n")
 
     cmd = [
         sys.executable, "src/main.py",
@@ -31,12 +28,10 @@ def run_train():
 
     run_command(cmd)
 
-# =========================
-# 🔁 GRID SEARCH
-# =========================
+#  GRID SEARCH
 
 def run_grid():
-    print("🔁 Running Grid Search...\n")
+    print(" Running Grid Search...\n")
 
     cmd = [
         sys.executable, "src/main.py",
@@ -45,12 +40,10 @@ def run_grid():
 
     run_command(cmd)
 
-# =========================
-# 📊 COMPARE
-# =========================
+#  COMPARE
 
 def run_compare():
-    print("📊 Comparing Runs...\n")
+    print(" Comparing Runs...\n")
 
     cmd = [
         sys.executable, "src/compare.py"
@@ -58,29 +51,24 @@ def run_compare():
 
     run_command(cmd)
 
-# =========================
-# 🌐 APP
-# =========================
+
+#  APP
 
 def run_app():
-    print("🌐 Launching App...\n")
+    print(" Launching App...\n")
 
     cmd = ["streamlit", "run", "src/app.py"]
     run_command(cmd)
 
-# =========================
-# 📊 DASHBOARD
-# =========================
+#  DASHBOARD
 
 def run_dashboard():
-    print("📊 Launching Dashboard...\n")
+    print(" Launching Dashboard...\n")
 
     cmd = ["streamlit", "run", "src/dashboard.py"]
     run_command(cmd)
 
-# =========================
-# 🎯 ARG PARSER
-# =========================
+#  ARG PARSER
 
 def parse():
     parser = argparse.ArgumentParser(description="🔥 ML Project Runner")
@@ -93,9 +81,7 @@ def parse():
 
     return parser.parse_args()
 
-# =========================
-# ▶️ MAIN
-# =========================
+#  MAIN
 
 def main():
     args = parse()
@@ -115,7 +101,6 @@ def main():
     elif args.command == "dashboard":
         run_dashboard()
 
-# =========================
 
 if __name__ == "__main__":
     main()
